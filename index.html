@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./index.js"></script>
+    <script src="./createcode.js"></script>
+    <style>
+        .all {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+
+        }
+
+        .all .bbox {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+        }
+
+        .all .bbox #text_are {
+            width: 326px;
+            height: 200px;
+        }
+
+        .all .bbox .btn {
+            width: 120px;
+            height: 45px;
+            box-sizing: border-box;
+            background: #effe4e;
+            border: none;
+            outline: none;
+            margin-left: 30px;
+            color: #f34;
+            font-size: 18px;
+        }
+
+        .all .bbox .btn.btn_01 {
+            background: skyblue;
+            color: blue;
+        }
+
+        .main {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 30px;
+        }
+
+        .main .img_id {
+            width: 256px;
+            height: 256px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="all">
+        <div class="bbox">
+            <textarea id="text_are" cols="20" rows="10"></textarea>
+            <button class="btn btn_00">点击执行</button>
+            <button class="btn btn_01">随机当前</button>
+        </div>
+        <div class="main">
+            <img class="img_id" src="" alt="">
+        </div>
+    </div>
+</body>
+<script defer>
+    $(function () {
+        $("#text_are").keyup(function (res) {
+            // console.log('输出信息:', res,);
+            this.text_are = $("#text_are").val();
+            // $("#text_are").val()
+        })
+        var res = {
+            getData() {
+                this.text_are = $("#text_are").val();
+                return this.text_are
+            },
+            createImg(text_are, cb) {
+                $QRCodeMaker(text_are, function (obj) {
+                    // console.log('输出信息:', obj);
+                    cb(obj.base64)
+                })
+            }
+        }
+        $("#text_are").val("HTTP://SAO.SO/L/.4.R8TANDG4*F0L");
+        res.createImg(text_are, function (base64_data) {
+            $(".img_id").attr({ "src": base64_data })
+            console.log('点击输出', text_are, base64_data);
+        })
+        $(".btn_00").click(function () {
+            var text_are = res.getData();
+            res.createImg(text_are, function (base64_data) {
+                $(".img_id").attr({ "src": base64_data })
+                console.log('点击输出', text_are, base64_data);
+            })
+
+            // this.text_are
+        })
+        $(".btn_01").click(function () {
+            // HTTP://SAO.SO/L/.4.R8TANDG4*F0L
+            var txt = ["0", "1", "2", "3", "*", "4", "5", "6", "7", "8", "9", "A", "B", "*", "C", "D", "E", ".", "F", "G", "H", "*", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", ".", "T", "U", "V", "W", "X", "Y", "Z", "*", "."];
+            var path = "";
+            for (let i = 0; i < 15; i++) {
+                var str = Math.random().toString();
+                var last_num = parseInt(txt.length * str);
+                // console.log('输出信息:', last_num);
+                path += txt[last_num]
+                // element = txt[i];
+            }
+            var url = "HTTP://SAO.SO/L/" + path;
+            $("#text_are").val(url);
+            res.createImg(url, function (base64_data) {
+                $(".img_id").attr({ "src": base64_data })
+                console.log('点击输出', url, base64_data);
+            })
+            console.log('输出信息', path);
+            // var text_are = res.getData();
+            // res.createImg(text_are, function (base64_data) {
+            //     $(".img_id").attr({ "src": base64_data })
+            //     console.log('点击输出', text_are, base64_data);
+            // })
+
+            // this.text_are
+        })
+    })
+</script>
+
+</html>
